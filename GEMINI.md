@@ -14,7 +14,7 @@ This project uses **Bun** as the package manager and runner, and **Vite** as the
 
 - **Core**: Vanilla HTML5 structure and JavaScript following the latest ES features supported by the build tools (Vite).
 - **Styling**: Vanilla CSS with design tokens defined in `:root`. Tailored for a **600x600** additive dark display (pure black background `#000000` is transparent on smart glasses).
-- **Vite Configuration**: The project is built using **Vite**. Code and assets reside in `src/` and are built into `docs/` for GitHub Pages hosting compatibility.
+- **Vite Configuration**: The project is built using **Vite**, with the `base` path option configured to `/glasses/` to prefix all compiled assets for subfolder hosting. Code and assets reside in `src/` and are built into `docs/` for GitHub Pages hosting compatibility.
 
 ## Coding Standards
 
