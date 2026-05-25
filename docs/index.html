@@ -1,24 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-            color: #333;
-        }
-        h1 {
-            color: #111;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no">
+  <title>Wiki Explorer</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to the Test Page v2</h1>
+  <div id="app">
+    <!-- Home Screen -->
+    <div id="home" class="screen">
+      <header class="header">
+        <h1>Wiki Explorer 📚</h1>
+        <button class="badge badge-info focusable" id="saved-badge" data-action="go-to-saved">0 Saved</button>
+      </header>
+      <div class="content">
+        <div class="card focusable" tabindex="0" data-action="go-to-search">
+          <div class="card-title">🔍 Search Wikipedia</div>
+          <div class="card-subtitle">Lookup topics, people, events, and concepts</div>
+        </div>
+        
+        <div class="card focusable" tabindex="0" data-action="fetch-random">
+          <div class="card-title">🎲 Random Summary</div>
+          <div class="card-subtitle">Discover a random Wikipedia entry instantly</div>
+        </div>
+        
+        <div class="featured-container">
+          <h2 class="section-title">Featured Topics</h2>
+          <div class="data-grid">
+            <button class="nav-item focusable" data-action="featured-search" data-term="Space exploration">🌌 Space</button>
+            <button class="nav-item focusable" data-action="featured-search" data-term="Evolutionary biology">🌿 Biology</button>
+            <button class="nav-item focusable" data-action="featured-search" data-term="Ancient history">🏛️ History</button>
+            <button class="nav-item focusable" data-action="featured-search" data-term="Artificial intelligence">💻 AI Tech</button>
+          </div>
+        </div>
+      </div>
+      <nav class="nav-bar">
+        <button class="nav-item focusable" data-action="go-to-saved">📚 View Saved Articles</button>
+      </nav>
+    </div>
+
+    <!-- Search Screen -->
+    <div id="search" class="screen hidden">
+      <header class="header">
+        <button class="back-btn focusable" data-action="back">&#8592;</button>
+        <h1>Search Wiki</h1>
+      </header>
+      <div class="content">
+        <input type="text" id="search-input" class="text-input" placeholder="Select a topic below..." disabled>
+        
+        <div class="suggestions-bar">
+          <button class="suggestion-chip focusable" data-action="quick-search" data-term="Quantum mechanics">Quantum</button>
+          <button class="suggestion-chip focusable" data-action="quick-search" data-term="Renaissance">Renaissance</button>
+          <button class="suggestion-chip focusable" data-action="quick-search" data-term="Dinosaurs">Dinosaur</button>
+          <button class="suggestion-chip focusable" data-action="quick-search" data-term="Philosophy">Philosophy</button>
+        </div>
+
+        <div id="search-results" class="list-container">
+          <!-- Search result list items generated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Detail Screen -->
+    <div id="detail" class="screen hidden">
+      <header class="header">
+        <button class="back-btn focusable" data-action="back">&#8592;</button>
+        <h1 id="detail-title">Article</h1>
+      </header>
+      <div class="content scroll-container" id="detail-scroll-container">
+        <div id="detail-thumbnail-container" class="hidden">
+          <img id="detail-thumbnail" src="" alt="Thumbnail">
+        </div>
+        <div id="detail-description">Description</div>
+        <p id="detail-extract">Summary content goes here...</p>
+        
+        <div class="nav-bar detail-actions">
+          <button class="nav-item focusable" id="detail-save-btn" data-action="toggle-save">⭐ Save Offline</button>
+          <button class="nav-item primary focusable" data-action="show-qr">📱 Read Full</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saved Articles Screen -->
+    <div id="saved" class="screen hidden">
+      <header class="header">
+        <button class="back-btn focusable" data-action="back">&#8592;</button>
+        <h1>Saved Pages</h1>
+      </header>
+      <div class="content">
+        <div id="saved-list" class="list-container">
+          <!-- Saved items generated dynamically -->
+        </div>
+      </div>
+      <nav class="nav-bar">
+        <button class="nav-item danger focusable" data-action="clear-all-saved">🗑️ Clear All</button>
+      </nav>
+    </div>
+
+    <!-- Global Loading Spinner Overlay -->
+    <div id="loading" class="loading-container hidden">
+      <div class="loading-spinner"></div>
+      <div class="loading-text" id="loading-text">Fetching from Wikipedia...</div>
+    </div>
+
+    <!-- Global Error Dialog Overlay -->
+    <div id="error" class="error-container hidden">
+      <div class="error-icon">&#9888;</div>
+      <div class="error-message" id="error-message">Something went wrong</div>
+      <button class="nav-item focusable" data-action="clear-error">Dismiss</button>
+    </div>
+
+    <!-- QR Code Modal Overlay -->
+    <div id="qr-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <h2>Read on Phone</h2>
+        <div id="qr-code-img-container">
+          <img id="qr-code-img" src="" alt="QR Code">
+        </div>
+        <div class="modal-meta">Scan with your smartphone camera to read the full Wikipedia article.</div>
+        <button class="nav-item focusable" data-action="close-qr">Close</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>

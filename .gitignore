@@ -1,0 +1,4 @@
+# Smart Glasses WebApp Workspace ignores
+
+# Ignore symlinked agents skills
+.agents/skills/
